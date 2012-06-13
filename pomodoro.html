@@ -1,0 +1,70 @@
+<head>
+  <title>my pomodoro app</title>
+</head>
+
+<body> 
+  <audio src="tick.ogg" loop="loop" id='tick'></audio>
+  <audio src="ring.ogg" id='ring'></audio>
+  {{>notify}}
+  <h1>Todays pomodoros</h1>
+  {{>today}}
+  <h1>Older pomodoros</h1>
+  {{>before}}
+</body>
+
+<template name='notify'>
+  <div class='modal hide' id='notifyModal'>
+    <div class='modal-body'>
+      <h1>{{message}}</h1>
+    </div>
+  </div>
+</template>
+
+<template name="today">
+  <table class='table'>
+    <tr>
+      <th>Task</th>
+      <th>Started</th>
+      <th colspan="2">Ended</th>
+    </tr>
+    {{#each all}}
+      {{>pomodoro}}
+    {{/each}}
+  </table>
+  <form id="new_entry">
+    <input type="text" name="name" id="new_entry_name">
+    <input type="submit" value="Add">
+    <button type="button" id="break-5" class="btn btn-primary">
+      Take a 5 minute break
+    </button>
+    <button type="button" id="break-25" class="btn btn-primary">
+      Take a 25 minute break
+    </button>
+  </form>
+</template>
+
+<template name="before">
+  <table class='table'>
+    <tr>
+      <th>Task</td>
+      <th>Started</td>
+      <th colspan="2">Ended</th>
+    </tr>
+    {{#each all}}
+      {{>pomodoro}}
+    {{/each}}
+  </table>
+</template>
+
+<template name="pomodoro">
+  <tr>
+    <td>{{name}}</td>
+    <td>{{date time_started}}</td>
+    <td>{{date time_ended}}</td>
+    <td>
+      {{#unless time_ended}}
+        <input type="submit" name="break" class="break" value="Break this pomodoro" data-id={{_id}}>
+      {{/unless}}
+    </td>
+  </tr>
+</template>
